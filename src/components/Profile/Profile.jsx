@@ -5,7 +5,7 @@ import Post from './MyPosts/Post/Post';
 
 const Profile = (props) => {
 
-    let postsElements = props.posts.map(post => <Post message={post.message} likesCount={post.likesCount}/>);
+    let postsElements = props.state.posts.map(post => <Post message={post.message} likesCount={post.likesCount}/>);
     
     return (<div>
         <ProfileInfo />

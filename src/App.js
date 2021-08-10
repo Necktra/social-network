@@ -16,8 +16,8 @@ function App(props) {
       <Header />
       <Navbar />
       <div class="app-wrapper-content">
-        <Route path="/dialogs" render={ () => <Dialogs messages={props.messages} dialogs={props.dialogs}/>} />
-        <Route path="/profile" render={ () => <Profile posts={props.posts}/>} />
+        <Route path="/dialogs" render={ () => <Dialogs state={props.state.dialogsPage}/>} />
+        <Route path="/profile" render={ () => <Profile state={props.state.profilePage}/>} />
         <Route path="/news" render={ () => <News />} />
         <Route path="/music" render={ () => <Music />} />
         <Route path="/settings" render={ () => <Settings />} />     
