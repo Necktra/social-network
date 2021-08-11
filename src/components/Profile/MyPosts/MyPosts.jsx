@@ -4,7 +4,10 @@ import React from 'react';
 const MyPosts = (props) => {
 
     let newPostElement = React.createRef();
-    let addPost = () => { props.addPost(newPostElement.current.value)};
+    let addPost = () => {
+        props.addPost(newPostElement.current.value);
+        newPostElement.current.value ="";
+    };
 
     return (<div className={classes.postsBlock}>My posts
         <h3>New post</h3>

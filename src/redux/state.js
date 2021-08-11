@@ -6,6 +6,8 @@
 //     { id: 5, name: "Dima5" },
 //   ];
 
+import { rerenderEntireTree } from "../render";
+
 //   let messages = [
 //     { id: 1, message: "Привет" },
 //     { id: 2, message: "Hi" },
@@ -87,6 +89,7 @@ export let addPost = (postMessage) => {
     likesCount: 0
   };
   state.profilePage.posts.push(newPost);
+  rerenderEntireTree(state);
 };
 
 
