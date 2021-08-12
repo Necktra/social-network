@@ -7,8 +7,6 @@ const MyPosts = (props) => {
 
     let addPost = () => {
         props.addPost();
-        // props.addPost(newPostElement.current.value);
-        //newPostElement.current.value ="";
     };
 
     let onPostChange = () => {        
@@ -23,6 +21,7 @@ const MyPosts = (props) => {
             </div>
             <div>
                 <button onClick={ addPost }>Add post</button>
+                {/* <button onClick={ props.stateTest.addPost }>Add post</button> */}
             </div>
         </div>
         <div className={classes.posts}>
