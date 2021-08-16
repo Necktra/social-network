@@ -4,10 +4,10 @@ import MyPosts from './MyPosts';
 import Post from './Post/Post';
 
 const MyPostsContainer = (props) => {
-    let state = props.store.getState();
+    let state = props.store.getState().profilePage;
     // debugger;
     //let postsElements = props.state.posts.map(post => <Post message={post.message} likesCount={post.likesCount}/>);
-    let postsElements = state.profilePage.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />);
+    let postsElements = state.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />);
 
     let addPost = () => {
         props.store.dispatch(addPostActionCreator());
@@ -17,7 +17,7 @@ const MyPostsContainer = (props) => {
         props.store.dispatch(updateNewPostTextActionCreator(text));
     };
 
-    return (<MyPosts updateNewPostText={onPostChange} addPost={addPost} postsElements={postsElements} newPostText={state.profilePage.newPostText} />)
+    return (<MyPosts updateNewPostText={onPostChange} addPost={addPost} postsElements={postsElements} newPostText={state.newPostText} />)
 }
 
 export default MyPostsContainer;
