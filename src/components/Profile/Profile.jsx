@@ -10,10 +10,9 @@ const Profile = (props) => {
     
     return (<div>
         <ProfileInfo />
-        {/* <MyPostsContainer store={props.store} postsElements={postsElements}/> */}
-        <MyPostsContainer store={props.store}/>
-        {/* <MyPosts postsElements={postsElements} dispatch={props.dispatch} newPostText={props.state.newPostText}/> */}
-        {/* <MyPosts stateTest={props.stateTest} postsElements={postsElements} addPost={props.addPost} updateNewPostText={props.updateNewPostText} newPostText={props.state.newPostText}/> */}
+        {/* <MyPostsContainer store={props.store}/> */}
+        <MyPostsContainer/>
+      
     </div>
     )
 }
