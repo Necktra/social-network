@@ -6,7 +6,7 @@ import Post from './Post/Post';
 
 const mapStateToProps = (state) => {
     return {
-        postsElements: state.profilePage.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />),
+        postsElements: state.profilePage.posts.map(post => <Post message={post.message} key={post.id} likesCount={post.likesCount} />),
         newPostText: state.profilePage.newPostText,
     }
 };
