@@ -7,18 +7,18 @@ import { sendMessageCreator, updateNewMessageTextCreator } from '../../redux/dia
 const Dialogs = (props) => {
 
     let onSendMessageClick = () => {
-        //props.dispatch(sendMessageCreator());
         props.sendMessage();
     };
 
     let onNewMessageTextChange = (e) => {
-        let body = e.target.value;
+        //let body = e.target.value;
+       
         //props.updateNewMessageBody(body);
-        props.updateNewMessageBody(body);
+        props.updateNewMessageBody(e.target.value);
     };
 
-    let messagesElements = props.messages.map(message => <Message message={message.message} />);
-    let dialogsElements = props.dialogs.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
+    let messagesElements = props.messages.map(message => <Message message={message.message} key={message.id}/>);
+    let dialogsElements = props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} />);
 
 
     return (
@@ -30,7 +30,6 @@ const Dialogs = (props) => {
             <div className={classes.messages}>
                 <div>{messagesElements}</div>
 
-                {/* <div><textarea onChange={onNewMessageTextChange} value={props.state.newMessageText} ref={newMessageElement}></textarea></div> */}
                 <div><textarea onChange={onNewMessageTextChange} value={props.newMessageText}></textarea></div>
                 <div><button onClick={onSendMessageClick}>Отправить</button></div>
             </div>
