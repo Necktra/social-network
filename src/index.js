@@ -11,12 +11,19 @@ import { Provider } from 'react-redux';
 //  {/* <App state={state} dispatch={store.dispatch.bind(store)} sendMessage={store.sendMessage.bind(store)} updateNewMessageText={store.updateNewMessageText.bind(store)}/> */}
 //let rerenderEntireTree = (state) => {
 ReactDOM.render(
-  <React.StrictMode>
+
+  <React.StrictMode>  
+    {/* В 49 уроке из-за задвоения юзеров в комментах советуют убрать */}
+
     <Provider store = {store}>
       {/* <App state={state} dispatch={store.dispatch.bind(store)} store={store}/> */}
       <App/>
     </Provider>
-  </React.StrictMode>,
+    {/* , */}
+
+  </React.StrictMode>,   
+  // В 49 уроке из-за задвоения юзеров в комментах советуют убрать
+
 document.getElementById('root')
 );
  
