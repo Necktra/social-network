@@ -3,12 +3,14 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   users: [],
   pageSize: 10,
   totalUsersCount: 0,
-  currentPage: 1
+  currentPage: 1,
+  isFetching: false,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -27,36 +29,39 @@ const usersReducer = (state = initialState, action) => {
           return el
         }),
       }
-      case UNFOLLOW:
-        return {
-          ...state,
-          users: state.users.map(el => {
-            if (el.id === action.userID) {
-              return {
-                ...el,
-                followed: false
-              }
-            }
-            return el
-          }),
-        }
-        case SET_USERS:
-          //return {...state, users: [...state.users, ...action.users]}
-          return {
-            ...state, users: [...action.users]
-          }
-
-        case SET_CURRENT_PAGE:
-          return {
-            ...state, currentPage: action.currentPage
-          }
-        case SET_TOTAL_USERS_COUNT:
+    case UNFOLLOW:
+      return {
+        ...state,
+        users: state.users.map(el => {
+          if (el.id === action.userID) {
             return {
-              ...state, totalUsersCount: action.totalUsersCount
+              ...el,
+              followed: false
             }
+          }
+          return el
+        }),
+      }
+    case SET_USERS:
+      //return {...state, users: [...state.users, ...action.users]}
+      return {
+        ...state, users: [...action.users]
+      }
 
-          default:
-            return state;
+    case SET_CURRENT_PAGE:
+      return {
+        ...state, currentPage: action.currentPage
+      }
+    case SET_TOTAL_USERS_COUNT:
+      return {
+        ...state, totalUsersCount: action.totalUsersCount
+      }
+    case TOGGLE_IS_FETCHING:
+      return {
+        ...state, isFetching: action.isFetching
+      }
+    default:
+      return state;
   }
 }
 
@@ -79,6 +84,10 @@ export const setCurrentPageAC = (currentPage) => ({
 export const setTotalUsersCountAC = (totalUsersCount) => ({
   type: SET_TOTAL_USERS_COUNT,
   totalUsersCount
+});
+export const toggleIsFetchingAC = (isFetching) => ({
+  type: TOGGLE_IS_FETCHING,
+  isFetching
 });
 
 export default usersReducer;
