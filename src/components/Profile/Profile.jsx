@@ -10,7 +10,7 @@ const Profile = (props) => {
         return <Preloader/>
     }
     // let postsElements = props.state.posts.map(post => <Post message={post.message} likesCount={post.likesCount}/>);
-    
+
     return (<div>
         <ProfileInfo profile={props.profile}/>
         {/* <MyPostsContainer store={props.store}/> */}
