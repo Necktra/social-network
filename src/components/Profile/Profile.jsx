@@ -7,15 +7,15 @@ import Preloader from '../common/Preloader/Preloader';
 
 const Profile = (props) => {
     if (!props.profile) {
-        return <Preloader/>
+        return <Preloader />
     }
     // let postsElements = props.state.posts.map(post => <Post message={post.message} likesCount={post.likesCount}/>);
 
     return (<div>
-        <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
-        {/* <MyPostsContainer store={props.store}/> */}
-        <MyPostsContainer/>
-      
+        <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
+
+        <MyPostsContainer />
+
     </div>
     )
 }

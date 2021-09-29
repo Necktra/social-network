@@ -9,9 +9,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { getUserProfile, getStatus, updateStatus } from './../../redux/profile-reducer';
 import { withRouter } from 'react-router-dom';
-import { usersAPI } from './../../api/api';
-import { Redirect } from 'react-router';
-import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 
 class ProfileContainer extends React.Component {
