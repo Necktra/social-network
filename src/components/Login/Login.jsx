@@ -4,12 +4,16 @@ import { required } from "../../utils/validators/validators";
 import { Input } from "../common/FormsControls/FormsControls";
 import { login } from "../../redux/auth-reducer";
 import { Redirect } from "react-router";
+import style from '../../components/common/FormsControls/FormsControls.module.css';
 
 const LoginForm = (props) => {
     return (<form onSubmit={props.handleSubmit}>
             <div> <Field placeholder={"Email"} validate={[required]} name={"email"} component={Input}/> </div>
             <div> <Field placeholder={"Password"} type={"password"} validate={[required]} name={"password"} component={Input}/> </div>
             <div> <Field component={Input} name={"rememberMe"} type={"checkbox"}/> remember me</div>
+            <div className={style.formSummaryError}>
+
+            </div>
             <div><button>Login</button></div>
         </form>)
 }
