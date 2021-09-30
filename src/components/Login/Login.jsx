@@ -8,20 +8,20 @@ import style from '../../components/common/FormsControls/FormsControls.module.cs
 
 const LoginForm = (props) => {
     return (<form onSubmit={props.handleSubmit}>
-            <div> <Field placeholder={"Email"} validate={[required]} name={"email"} component={Input}/> </div>
-            <div> <Field placeholder={"Password"} type={"password"} validate={[required]} name={"password"} component={Input}/> </div>
-            <div> <Field component={Input} name={"rememberMe"} type={"checkbox"}/> remember me</div>
-            <div className={style.formSummaryError}>
-
-            </div>
-            <div><button>Login</button></div>
-        </form>)
+        <div> <Field placeholder={"Email"} validate={[required]} name={"email"} component={Input} /> </div>
+        <div> <Field placeholder={"Password"} type={"password"} validate={[required]} name={"password"} component={Input} /> </div>
+        <div> <Field component={Input} name={"rememberMe"} type={"checkbox"} /> remember me</div>
+        {props.error && <div className={style.formSummaryError}>
+            {props.error}
+        </div>}
+        <div><button>Login</button></div>
+    </form>)
 }
 
-const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
+const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
 
 const Login = (props) => {
-    
+
     const onSubmit = (formData) => {
         // debugger;
         props.login(formData.email, formData.password, formData.rememberMe);
@@ -29,17 +29,17 @@ const Login = (props) => {
     };
 
     if (props.isAuth) {
-        return <Redirect to={"/profile"}/>
+        return <Redirect to={"/profile"} />
     }
 
     return (<div>
         <h1>LOGIN</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginReduxForm onSubmit={onSubmit} />
     </div>)
 }
 
 const mapStateToProps = (state) => ({
-isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth
 });
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, { login })(Login);

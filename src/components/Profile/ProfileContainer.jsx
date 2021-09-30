@@ -1,4 +1,3 @@
-import MyPosts from './MyPosts/MyPosts';
 import classes from './Profile.module.css';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import Post from './MyPosts/Post/Post';
@@ -15,7 +14,8 @@ class ProfileContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if(!userId) {
-            userId = 19354;
+            // userId = 19354;
+            userId = this.props.authorizedUserId;
         }
 
         this.props.getUserProfile(userId);
@@ -33,7 +33,10 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.userId,
+        isAuth: state.auth.isAuth,
+
     }
 };
 
