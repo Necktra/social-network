@@ -1,10 +1,5 @@
-import classes from './Profile.module.css';
-import ProfileInfo from './ProfileInfo/ProfileInfo';
-import Post from './MyPosts/Post/Post';
-import MyPostsContainer from './MyPosts/MyPostsContainer';
 import React from 'react';
 import Profile from './Profile';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { getUserProfile, getStatus, updateStatus } from './../../redux/profile-reducer';
 import { withRouter } from 'react-router-dom';
@@ -16,6 +11,9 @@ class ProfileContainer extends React.Component {
         if(!userId) {
             // userId = 19354;
             userId = this.props.authorizedUserId;
+            if(!userId) {
+                this.props.history.push("/login");
+            }
         }
 
         this.props.getUserProfile(userId);
