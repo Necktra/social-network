@@ -1,5 +1,5 @@
 import classes from './MyPosts.module.css';
-import React from 'react';
+import React, { Component, PureComponent } from 'react';
 import { reduxForm } from 'redux-form';
 import { Field } from 'redux-form';
 import { maxLengthCreator, required } from '../../../utils/validators/validators';
@@ -16,7 +16,30 @@ const AddNewPostForm = (props) => {
 
 const AddPostFormRedux = reduxForm({ form: 'profileAddNewPostForm' })(AddNewPostForm);
 
-const MyPosts = (props) => {
+// class MyPosts extends PureComponent{
+
+//     // shouldComponentUpdate (nextProps, nextState) {
+//     //     return nextProps != this.props || nextState != this.state;
+//     // }
+
+//     render() {
+//     let onAddPost = (values) => {
+//         this.props.addPost(values.newPostText);
+//     };
+
+//     return (<div className={classes.postsBlock}>My posts
+//         <h3>New post</h3>
+//         <div>
+//             <AddPostFormRedux onSubmit={onAddPost} />
+//         </div>
+//         <div className={classes.posts}>
+//             {this.props.postsElements}
+//         </div>
+//     </div>
+//     )}
+// }
+
+const MyPosts = React.memo((props) => {
 
     let onAddPost = (values) => {
         props.addPost(values.newPostText);
@@ -32,6 +55,6 @@ const MyPosts = (props) => {
         </div>
     </div>
     )
-}
+})
 
 export default MyPosts;
