@@ -1,9 +1,6 @@
-import { stopSubmit } from "redux-form";
-import { authAPI } from "../api/api";
 import { getAuthUserData } from "./auth-reducer";
 
 const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
-// const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
   initialized: false
@@ -32,14 +29,6 @@ export const initializeApp = () => (dispatch) => {
   Promise.all([promise]).then(()=> {
       dispatch(initializedSuccess());
   });
-
-  // authAPI.me().then(data => {
-  //   if (data.resultCode === 0) {
-  //     // debugger;
-  //       let { id, email, login } = data.data;
-  //       dispatch(setAuthUserData(id, email, login, true));
-  //   }
-  // });
 };
 
 export default appReducer;
