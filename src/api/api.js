@@ -61,13 +61,6 @@ export const profileAPI = {
 
     saveProfile(profile) {
         return instance.put(`profile`, profile);
-        // let formData = new FormData();
-        // formData.append("image", profile);
-        // return instance.put(`profile/photo`, formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data'
-        //     }
-        // });
     }
 }
 
@@ -77,21 +70,31 @@ export const authAPI = {
             return response.data
         });
     },
-    login(email, password, rememberMe = false) {
+    login(email, password, rememberMe = false, captcha = null) {
         return instance.post(`auth/login`, {
                 email,
                 password,
-                rememberMe
+                rememberMe,
+                captcha
             })
             .then(response => {
                 return response.data
             });
     },
+
     logout() {
         return instance.delete(`auth/login`)
             .then(response => {
                 return response.data
             });
     },
+}
 
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get(`security/get-captcha-url`).then(response => {
+            return response.data
+        });
+        // return instance.get(`security/get-captcha-url`);
+    }
 }
