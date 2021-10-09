@@ -18,25 +18,14 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto, savePr
         }
     }
 
-    // const onSubmit = async (formData) => {
-    //     await saveProfile(formData);
-    //     setEditMode(false)
-    // };
     const onSubmit = (formData) => {
-        saveProfile(formData).then(()=>{setEditMode(false)})
+        saveProfile(formData).then(() => { setEditMode(false) })
     };
-
-
-    // const deactivateEditMode = () => {
-    //     setEditMode(false);
-    //     // props.updateStatus(status);
-    // }
-
 
     return (
         <div>
             <div className={classes.descriptionBlock}>
-                <img src={profile.photos.large || userPhoto} className={classes.mainPhoto} />
+                <img src={profile.photos.large || userPhoto} className={classes.mainPhoto} alt="img" />
                 {profile.aboutMe}</div>
             {isOwner && <input type="file" onChange={onMainPhotoSelected} />}
 

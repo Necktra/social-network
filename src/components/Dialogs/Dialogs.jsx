@@ -2,7 +2,6 @@ import DialogItem from './DialogItem/DialogItem';
 import classes from './Dialogs.module.css';
 import Message from './Message/Message';
 import React from 'react';
-import { sendMessageCreator } from '../../redux/dialogs-reducer';
 import { Redirect } from 'react-router';
 import { Field } from 'redux-form';
 import { reduxForm } from 'redux-form';

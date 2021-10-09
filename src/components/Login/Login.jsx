@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
 import { required } from "../../utils/validators/validators";
 import { createField, Input } from "../common/FormsControls/FormsControls";
 import { login } from "../../redux/auth-reducer";
@@ -10,8 +10,8 @@ const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
     return (<form onSubmit={handleSubmit}>
         {createField("Email", "email", [required], Input)}
         {createField("Password", "password", [required], Input, { type: "password" })}
-        {createField(null, "rememberMe", [], Input, {type: "checkbox"}, "remember me")}
-        {captchaUrl && <img src={captchaUrl}/>}
+        {createField(null, "rememberMe", [], Input, { type: "checkbox" }, "remember me")}
+        {captchaUrl && <img src={captchaUrl} alt="captcha"/>}
         {captchaUrl && createField("Symbols from image", "captcha", [required], Input, {})}
         {error && <div className={style.formSummaryError}>
             {error}
@@ -34,7 +34,7 @@ const Login = (props) => {
 
     return (<div>
         <h1>LOGIN</h1>
-        <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
+        <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl} />
     </div>)
 }
 
