@@ -7,13 +7,24 @@ import { Field } from 'redux-form';
 import { reduxForm } from 'redux-form';
 import { Textarea } from '../common/FormsControls/FormsControls';
 import { maxLengthCreator, required } from '../../utils/validators/validators';
+import { DialogType, MessageType } from '../../redux/dialogs-reducer';
+
+type AddMessageFormPropsType = {
+    handleSubmit: any
+    // handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined
+    // handleSubmit: React.FormEventHandler<HTMLFormElement>
+}
+
+export type NewMessageFormValuesType = {
+    newMessageBody: string
+}
 
 const maxLength50 = maxLengthCreator(50);
 
-const AddMessageForm = (props) => {
+const AddMessageForm: React.FC<AddMessageFormPropsType> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
-            <div><Field component={Textarea} validate={[required, maxLength50]} name={"newMessageBody"} placeholder={"Enter your message"}  /></div>
+            <div><Field component={Textarea} validate={[required, maxLength50]} name={"newMessageBody"} placeholder={"Enter your message"} /></div>
             <div><button>Отправить</button></div>
         </form>
     )
@@ -21,7 +32,14 @@ const AddMessageForm = (props) => {
 
 const AddMessageFormRedux = reduxForm({ form: 'dialogAddMessageForm' })(AddMessageForm);
 
-const Dialogs = (props) => {
+type DialogsPropsType = {
+    messages: Array<MessageType>
+    dialogs: Array<DialogType>
+    isAuth: boolean
+    sendMessage: (newMessageBody: string) => void
+}
+
+const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
     let messagesElements = props.messages.map(message => <Message message={message.message} key={message.id} />);
     let dialogsElements = props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} />);
@@ -30,8 +48,7 @@ const Dialogs = (props) => {
         return <Redirect to={"/login"} />
     };
 
-    const addNewMessage = (values) => {
-        // console.log(values);
+    const addNewMessage = (values: NewMessageFormValuesType) => {
         props.sendMessage(values.newMessageBody);
     };
 
@@ -43,11 +60,9 @@ const Dialogs = (props) => {
 
             <div className={classes.messages}>
                 <div>{messagesElements}</div>
-
+                {/* @ts-ignore*/}
                 <AddMessageFormRedux onSubmit={addNewMessage} />
             </div>
-
-
         </div>
     )
 }

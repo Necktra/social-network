@@ -1,12 +1,12 @@
 // const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
 const SEND_MESSAGE = 'SEND_MESSAGE';
 
-type DialogType = {
+export type DialogType = {
   id: number,
   name: string
 }
 
-type MessageType = {
+export type MessageType = {
   id: number,
   message: string
 }
