@@ -1,8 +1,19 @@
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
 import Preloader from '../common/Preloader/Preloader';
+import { ProfileType } from '../../types/types';
 
-const Profile = (props) => {
+type PropsType = {
+    profile: ProfileType | null
+    isOwner: boolean
+    saveProfile: (profile: ProfileType)=> any
+    // saveProfile: (profile: ProfileType)=> Promise<any>
+    savePhoto: (file: any)=> void
+    status: string
+    updateStatus: (status: string)=> void
+}
+
+const Profile: React.FC<PropsType> = (props) => {
     if (!props.profile) {
         return <Preloader />
     }

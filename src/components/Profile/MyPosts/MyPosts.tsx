@@ -1,5 +1,5 @@
 import classes from './MyPosts.module.css';
-import React from 'react';
+import React, { FormEvent, FormEventHandler } from 'react';
 import { reduxForm } from 'redux-form';
 import { Field } from 'redux-form';
 import { maxLengthCreator, required } from '../../../utils/validators/validators';
@@ -7,18 +7,30 @@ import { Textarea } from '../../common/FormsControls/FormsControls';
 
 const maxLength10 = maxLengthCreator(10);
 
-const AddNewPostForm = (props) => {
+type AddNewPostFormPropsType = {
+    // handleSubmit: FormEvent<HTMLFormElement>
+    handleSubmit: FormEventHandler<HTMLFormElement>
+    // handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined
+    // handleSubmit: React.FormEventHandler<HTMLFormElement>
+}
+
+const AddNewPostForm: React.FC<AddNewPostFormPropsType> = (props) => {
     return (<form onSubmit={props.handleSubmit}>
         <div><Field component={Textarea} validate={[required, maxLength10]} name={"newPostText"} placeholder={"Enter your new post"} /></div>
         <div><button>Add post</button></div>
     </form>)
 };
 
+//@ts-ignore
 const AddPostFormRedux = reduxForm({ form: 'profileAddNewPostForm' })(AddNewPostForm);
 
-const MyPosts = React.memo((props) => {
+type MyPostsPropsType = {
+    addPost: (newPostBody: string) => void
+    postsElements: JSX.Element[]
+}
 
-    let onAddPost = (values) => {
+const MyPosts: React.FC<MyPostsPropsType> = React.memo((props) => {
+    let onAddPost = (values: any) => {
         props.addPost(values.newPostText);
     };
 

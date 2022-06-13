@@ -1,7 +1,7 @@
 import DialogItem from './DialogItem/DialogItem';
 import classes from './Dialogs.module.css';
 import Message from './Message/Message';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { Redirect } from 'react-router';
 import { Field } from 'redux-form';
 import { reduxForm } from 'redux-form';
@@ -11,6 +11,7 @@ import { DialogType, MessageType } from '../../redux/dialogs-reducer';
 
 type AddMessageFormPropsType = {
     handleSubmit: any
+    // handleSubmit: React.FormEventHandler<HTMLFormElement>
     // handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined
     // handleSubmit: React.FormEventHandler<HTMLFormElement>
 }

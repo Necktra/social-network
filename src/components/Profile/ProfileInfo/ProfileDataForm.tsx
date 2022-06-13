@@ -2,16 +2,23 @@ import { reduxForm } from "redux-form";
 import { createField, Input, Textarea } from "../../common/FormsControls/FormsControls";
 import classes from './ProfileInfo.module.css';
 import style from './../../common/FormsControls/FormsControls.module.css';
+import { ProfileType } from "../../../types/types";
+import { FormEventHandler } from "react";
 
-const ProfileDataForm = ({ handleSubmit, profile, error }) => {
+type PropsType = {
+    // handleSubmit: any
+    handleSubmit: FormEventHandler<HTMLFormElement>
+    // handleSubmit: FormEventHandler<HTMLFormElement>
+    profile: ProfileType
+    error: string
+}
+
+const ProfileDataForm: React.FC<PropsType> = ({ handleSubmit, profile, error }) => {
     return <form onSubmit={handleSubmit}>
         <div><button>save</button></div>
         {error && <div className={style.formSummaryError}>
             {error}
         </div>}
-        {/* <div>
-            <img className={classes.imgWall} src='https://i.pinimg.com/originals/de/30/de/de30dec00431f4b36c09cdd7dafd01e5.jpg'></img>
-        </div> */}
         <div>
             <div>
                 <b>Full name:</b> {createField("Full name", "fullName", [], Input)}
@@ -39,6 +46,7 @@ const ProfileDataForm = ({ handleSubmit, profile, error }) => {
     </form>
 }
 
+{/* @ts-ignore*/}
 const ProfileDataFormReduxForm = reduxForm({ form: 'edit-profile' })(ProfileDataForm);
 
 export default ProfileDataFormReduxForm;

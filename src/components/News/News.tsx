@@ -1,6 +1,6 @@
 // import classes from './News.module.css';
 
-const News = () => {
+const News: React.FC = () => {
     return (<div>News</div>
     )
 }
