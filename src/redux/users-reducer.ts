@@ -1,8 +1,12 @@
+
+import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 import {
   usersAPI
 } from "../api/api";
 import { UserType } from "../types/types";
 import { updateObjectInArray } from "../utils/object-helpers";
+import { AppStateType } from "./redux-store";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -23,7 +27,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const usersReducer = (state = initialState, action: any): InitialStateType => {
+const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
   switch (action.type) {
     case FOLLOW:
@@ -37,7 +41,6 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
         users: updateObjectInArray(state.users, action.userID, "id", { followed: false })
       }
     case SET_USERS:
-      //return {...state, users: [...state.users, ...action.users]}
       return {
         ...state, users: [...action.users]
       }
@@ -58,12 +61,14 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
       return {
         ...state, followingInProgress: action.isFetching ?
           [...state.followingInProgress, action.userId] :
-          [state.followingInProgress.filter(id => id !== action.userId)]
+          state.followingInProgress.filter(id => id !== action.userId)
       }
     default:
       return state;
   }
 }
+
+type ActionsType = FollowSuccessActionType | UnfollowSuccessActionType | SetUsersActionType | SetCurrentPageType | SetTotalUsersCountType | ToggleIsFetchingType | ToggleFollowingProgressType;
 
 type FollowSuccessActionType = {
   type: typeof FOLLOW
@@ -85,12 +90,12 @@ export const unfollowSuccess = (userID: number): UnfollowSuccessActionType => ({
   userID
 });
 
-type SetUsersType = {
+type SetUsersActionType = {
   type: typeof SET_USERS
   users: Array<UserType>
 }
 
-export const setUsers = (users: Array<UserType>): SetUsersType => ({
+export const setUsers = (users: Array<UserType>): SetUsersActionType => ({
   type: SET_USERS,
   users
 });
@@ -137,8 +142,12 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number): To
   userId
 });
 
-export const requestUsers = (page: number, pageSize: number) => {
-  return async (dispatch: any) => {
+type GetStateType = () => AppStateType;
+type DispatchType = Dispatch<ActionsType>;
+type ThunkType = ThunkAction<Promise<void>,AppStateType, unknown, ActionsType>;
+
+export const requestUsers = (page: number, pageSize: number): ThunkType => {
+  return async (dispatch: DispatchType, getState: GetStateType) => {
     dispatch(toggleIsFetching(true));
     dispatch(setCurrentPage(page));
     let data = await usersAPI.getUsers(page, pageSize);
@@ -148,22 +157,22 @@ export const requestUsers = (page: number, pageSize: number) => {
   }
 };
 
-const followUnfollowFlow = async (dispatch: any, userID: number, apiMethod: any, actionCreator: any) => {
+const _followUnfollowFlow = async (dispatch: DispatchType, userID: number, apiMethod: any, actionCreator: (userId:number) => UnfollowSuccessActionType | FollowSuccessActionType) => {
   dispatch(toggleFollowingProgress(true, userID));
   let data = await apiMethod(userID);
   if (data.resultCode === 0) { dispatch(actionCreator(userID)) }
   dispatch(toggleFollowingProgress(false, userID));
 };
 
-export const follow = (userID: number) => {
-  return async (dispatch: any) => {
-    followUnfollowFlow(dispatch, userID, usersAPI.follow.bind(usersAPI), followSuccess);
+export const follow = (userID: number): ThunkType => {
+  return async (dispatch) => {
+    _followUnfollowFlow(dispatch, userID, usersAPI.follow.bind(usersAPI), followSuccess);
   }
 };
 
-export const unfollow = (userID: number) => {
-  return async (dispatch: any) => {
-    followUnfollowFlow(dispatch, userID, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
+export const unfollow = (userID: number): ThunkType => {
+  return async (dispatch) => {
+    _followUnfollowFlow(dispatch, userID, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
   }
 };
 
