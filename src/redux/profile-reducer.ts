@@ -118,7 +118,7 @@ export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>;
 
-export const getUserProfile = (userId: number | null): ThunkType => async (dispatch) => {
+export const getUserProfile = (userId: number): ThunkType => async (dispatch) => {
   let response = await usersAPI.getProfile(userId);
   dispatch(setUserProfile(response.data));
 };
@@ -146,11 +146,12 @@ export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch,
   const userId = getState().auth.userId;
   const response = await profileAPI.saveProfile(profile);
   if (response.data.resultCode === 0) {
+    if (typeof userId === 'number'){
     dispatch(getUserProfile(userId));
+}
   } else {
     //@ts-ignore
     dispatch(stopSubmit("edit-profile", { _error: response.data.messages[0] }));
-    // dispatch(stopSubmit("edit-profile", {"contacts": {"facebook" : response.data.messages[0]}}));
     return Promise.reject(response.data.messages[0]);
   }
 };
