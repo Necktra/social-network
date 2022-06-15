@@ -102,7 +102,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   const data = await securityAPI.getCaptchaUrl();
   const captchaUrl = data.url;
-
+  
   dispatch(getCaptchaUrlSuccess(captchaUrl));
 
 };

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ProfileType } from "../types/types";
+import { PhotosType, ProfileType } from "../types/types";
 
 const instance = axios.create({
     withCredentials: true,
@@ -8,6 +8,12 @@ const instance = axios.create({
         "API-KEY": "e7da8bc7-fe26-4fcc-96fb-8aca7e2700ec"
     }
 });
+
+// type followResponseType = {
+//     // data: {photos: PhotosType}
+//     resultCode: ResultCodesEnum
+//     // messages: Array<string>
+// }
 
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
@@ -34,34 +40,49 @@ export const usersAPI = {
     }
 }
 
+type savePhotoResponseType = {
+    data: {photos: PhotosType}
+    resultCode: ResultCodesEnum
+    messages: Array<string>
+}
 
 export const profileAPI = {
     getProfile(userId: number) {
-        return instance.get(`profile/${userId}`);
+        return instance.get<ProfileType>(`profile/${userId}`).then(response => {
+            return response.data
+        });
     },
 
     getStatus(userId: number) {
-        return instance.get(`profile/status/${userId}`);
+        return instance.get<string>(`profile/status/${userId}`).then(response => {
+            return response.data
+        });
     },
 
     updateStatus(status: string) {
-        return instance.put(`profile/status`, {
+        return instance.put<BaseStatusResponseType>(`profile/status`, {
             status: status
+        }).then(response => {
+            return response.data
         });
     },
 
     savePhoto(photoFile: any) {
         let formData = new FormData();
         formData.append("image", photoFile);
-        return instance.put(`profile/photo`, formData, {
+        return instance.put<savePhotoResponseType>(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
+        }).then(response => {
+            return response.data
         });
     },
 
     saveProfile(profile: ProfileType) {
-        return instance.put(`profile`, profile);
+        return instance.put<BaseStatusResponseType>(`profile`, profile).then(response => {
+            return response.data
+        });;
     }
 }
 
@@ -74,49 +95,58 @@ export enum ResultCodeForCaptchaEnum {
     CaptchaIsRequired = 10,
 }
 
-type MyResponseType = {
-    data: { id: number, email: string, login: string}
+type MeResponseType = {
+    data: { id: number, email: string, login: string }
     resultCode: ResultCodesEnum
     messages: Array<string>
 }
 
 type LoginResponseType = {
-    data: { userId: number}
+    data: { userId: number }
     resultCode: ResultCodesEnum | ResultCodeForCaptchaEnum
     messages: Array<string>
 }
 
+type BaseStatusResponseType = {
+    data?: {}
+    resultCode: ResultCodesEnum
+    messages?: Array<string>
+}
+
 export const authAPI = {
     me() {
-        return instance.get<MyResponseType>(`auth/me`).then(response => {
+        return instance.get<MeResponseType>(`auth/me`).then(response => {
             return response.data
         });
     },
     login(email: string, password: string, rememberMe = false, captcha: null | string = null) {
         return instance.post<LoginResponseType>(`auth/login`, {
-                email,
-                password,
-                rememberMe,
-                captcha
-            })
+            email,
+            password,
+            rememberMe,
+            captcha
+        })
             .then(response => {
                 return response.data
             });
     },
 
     logout() {
-        return instance.delete(`auth/login`)
+        return instance.delete<BaseStatusResponseType>(`auth/login`)
             .then(response => {
                 return response.data
             });
     },
 }
 
+type GetCaptchaUrlResponseType = {
+    url: string
+}
+
 export const securityAPI = {
     getCaptchaUrl() {
-        return instance.get(`security/get-captcha-url`).then(response => {
+        return instance.get<GetCaptchaUrlResponseType>(`security/get-captcha-url`).then(response => {
             return response.data
         });
-        // return instance.get(`security/get-captcha-url`);
     }
 }

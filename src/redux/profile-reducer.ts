@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { stopSubmit } from "redux-form";
 import {
   profileAPI,
+  ResultCodesEnum,
   usersAPI
 } from "../api/api";
 import { PhotosType, PostType, ProfileType } from "../types/types";
@@ -119,40 +120,40 @@ export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>;
 
 export const getUserProfile = (userId: number): ThunkType => async (dispatch) => {
-  let response = await usersAPI.getProfile(userId);
-  dispatch(setUserProfile(response.data));
+  let data = await usersAPI.getProfile(userId);
+  dispatch(setUserProfile(data));
 };
 
 export const getStatus = (userId: number): ThunkType => async (dispatch) => {
-  let response = await profileAPI.getStatus(userId);
-  dispatch(setStatus(response.data));
+  let data = await profileAPI.getStatus(userId);
+  dispatch(setStatus(data));
 };
 
 export const updateStatus = (status: string): ThunkType => async (dispatch) => {
-  let response = await profileAPI.updateStatus(status);
-  if (response.data.resultCode === 0) {
+  let data = await profileAPI.updateStatus(status);
+  if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(setStatus(status));
   }
 };
 
 export const savePhoto = (file: any): ThunkType => async (dispatch) => {
-  let response = await profileAPI.savePhoto(file);
-  if (response.data.resultCode === 0) {
-    dispatch(savePhotoSuccess(response.data.data.photos));
+  let data = await profileAPI.savePhoto(file);
+  if (data.resultCode === ResultCodesEnum.Success) {
+    dispatch(savePhotoSuccess(data.data.photos));
   }
 };
 
 export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState) => {
   const userId = getState().auth.userId;
-  const response = await profileAPI.saveProfile(profile);
-  if (response.data.resultCode === 0) {
+  const data = await profileAPI.saveProfile(profile);
+  if (data.resultCode === ResultCodesEnum.Success) {
     if (typeof userId === 'number'){
     dispatch(getUserProfile(userId));
 }
   } else {
     //@ts-ignore
     dispatch(stopSubmit("edit-profile", { _error: response.data.messages[0] }));
-    return Promise.reject(response.data.messages[0]);
+    return Promise.reject(data.messages? data.messages[0] : "Edit profile error");
   }
 };
 
