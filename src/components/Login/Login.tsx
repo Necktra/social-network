@@ -16,7 +16,7 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
         <>
         {createField("Email", "email", [required], Input)}
         {createField("Password", "password", [required], Input, { type: "password" })}
-        {createField(null, "rememberMe", [], Input, { type: "checkbox" }, "remember me")}
+        {createField(undefined, "rememberMe", [], Input, { type: "checkbox" }, "remember me")}
         {captchaUrl && <img src={captchaUrl} alt="captcha" />}
         {captchaUrl && createField("Symbols from image", "captcha", [required], Input, {})}
         {error && <div className={style.formSummaryError}>
