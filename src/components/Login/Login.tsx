@@ -11,14 +11,23 @@ type LoginFormOwnProps = {
     captchaUrl: string | null
 }
 
+export type LoginFormValuesType = {
+    captcha: string
+    rememberMe: boolean
+    password: string
+    email: string
+}
+
+type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>;
+
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps>& LoginFormOwnProps> = ({ handleSubmit, error, captchaUrl }) => {
     return (<form onSubmit={handleSubmit}>
         <>
-        {createField("Email", "email", [required], Input)}
-        {createField("Password", "password", [required], Input, { type: "password" })}
-        {createField(undefined, "rememberMe", [], Input, { type: "checkbox" }, "remember me")}
+        {createField<LoginFormValuesTypeKeys>("Email", "email", [required], Input)}
+        {createField<LoginFormValuesTypeKeys>("Password", "password", [required], Input, { type: "password" })}
+        {createField<LoginFormValuesTypeKeys>(undefined, "rememberMe", [], Input, { type: "checkbox" }, "remember me")}
         {captchaUrl && <img src={captchaUrl} alt="captcha" />}
-        {captchaUrl && createField("Symbols from image", "captcha", [required], Input, {})}
+        {captchaUrl && createField<LoginFormValuesTypeKeys>("Symbols from image", "captcha", [required], Input, {})}
         {error && <div className={style.formSummaryError}>
             {error}
         </div>}
@@ -28,13 +37,6 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
 }
 
 const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({ form: 'login' })(LoginForm);
-
-export type LoginFormValuesType = {
-    captcha: string
-    rememberMe: boolean
-    password: string
-    email: string
-}
 
 type MapStatePropsType = {
     isAuth: boolean
@@ -49,7 +51,6 @@ type MapDispatchPropsType = {
 }
 
 const Login: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
-
     const onSubmit = (formData: LoginFormValuesType) => {
         props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
     };
