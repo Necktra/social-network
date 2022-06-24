@@ -1,13 +1,12 @@
 import { Dispatch } from "redux";
 import { stopSubmit } from "redux-form";
 import {
-  profileAPI,
   ResultCodesEnum,
-  usersAPI
 } from "../api/api";
 import { PhotosType, PostType, ProfileType } from "../types/types";
 import { AppStateType } from "./redux-store";
 import { ThunkAction } from 'redux-thunk';
+import { profileAPI } from './../api/profile-api';
 
 const ADD_POST = 'ADD_POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -120,7 +119,7 @@ export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>;
 
 export const getUserProfile = (userId: number): ThunkType => async (dispatch) => {
-  let data = await usersAPI.getProfile(userId);
+  let data = await profileAPI.getProfile(userId);
   dispatch(setUserProfile(data));
 };
 
@@ -147,13 +146,13 @@ export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch,
   const userId = getState().auth.userId;
   const data = await profileAPI.saveProfile(profile);
   if (data.resultCode === ResultCodesEnum.Success) {
-    if (typeof userId === 'number'){
-    dispatch(getUserProfile(userId));
-}
+    if (typeof userId === 'number') {
+      dispatch(getUserProfile(userId));
+    }
   } else {
     //@ts-ignore
-    dispatch(stopSubmit("edit-profile", { _error: response.data.messages[0] }));
-    return Promise.reject(data.messages? data.messages[0] : "Edit profile error");
+    dispatch(stopSubmit("edit-profile", { _error: data.messages[0] }));
+    return Promise.reject(data.messages ? data.messages[0] : "Edit profile error");
   }
 };
 

@@ -1,8 +1,9 @@
 import { stopSubmit } from "redux-form";
-import { authAPI, ResultCodeForCaptchaEnum, ResultCodesEnum, securityAPI } from "../api/api";
+import {  ResultCodeForCaptchaEnum, ResultCodesEnum } from "../api/api";
 import { AppStateType } from "./redux-store";
-import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { securityAPI } from './../api/security-api';
+import { authAPI } from './../api/auth-api';
 
 // const SET_AUTH_USERS_DATA = 'SET_USERS_DATA';
 const SET_AUTH_USERS_DATA = 'samurai-network/auth/SET_AUTH_USERS_DATA';
@@ -109,7 +110,8 @@ export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
 
 export const logout = (): ThunkType => async (dispatch) => {
   let data = await authAPI.logout();
-  if (data.resultCode === ResultCodesEnum.Success) {
+  if (data.data.resultCode === ResultCodesEnum.Success) {
+    // if (data.resultCode === ResultCodesEnum.Success) {
     dispatch(setAuthUserData(null, null, null, false));
   }
 };
