@@ -6,9 +6,8 @@ import { ProfileType } from '../../types/types';
 type PropsType = {
     profile: ProfileType | null
     isOwner: boolean
-    saveProfile: (profile: ProfileType)=> any
-    // saveProfile: (profile: ProfileType)=> Promise<any>
-    savePhoto: (file: any)=> void
+    saveProfile: (profile: ProfileType)=> Promise<any>
+    savePhoto: (file: File)=> void
     status: string
     updateStatus: (status: string)=> void
 }
