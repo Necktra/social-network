@@ -77,7 +77,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 };
 
-export default compose(
+export default compose<React.ComponentType>(
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile }),
     withRouter,
     // withAuthRedirect

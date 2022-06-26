@@ -28,9 +28,9 @@ const Dialogs: React.FC<PropsType> = (props) => {
     let messagesElements = props.messages.map(message => <Message message={message.message} key={message.id} />);
     let dialogsElements = props.dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} />);
 
-    if (!props.isAuth) {
-        return <Redirect to={"/login"} />
-    };
+    // if (!props.isAuth) {
+    //     return <Redirect to={"/login"} />
+    // };
 
     const addNewMessage = (values: NewMessageFormValuesType) => {
         props.sendMessage(values.newMessageBody);
